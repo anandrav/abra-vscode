@@ -1,591 +1,250 @@
 {
-	"name": "Abra",
-	"scopeName": "source.abra",
-	"patterns": [
-		{
-			"include": "#block-comments"
-		},
-		{
-			"include": "#comments"
-		},
-		{
-			"include": "#constants"
-		},
-		{
-			"include": "#functions"
-		},
-		{
-			"include": "#types"
-		},
-		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#punctuation"
-		},
-		{
-			"include": "#strings"
-		},
-		{
-			"include": "#variables"
-		}
-	],
-	"repository": {
-		"block-comments": {
-			"patterns": [
-				{
-					"comment": "empty block comments",
-					"name": "comment.block.rust",
-					"match": "/\\*\\*/"
-				},
-				{
-					"comment": "block comments",
-					"name": "comment.block.rust",
-					"begin": "/\\*(?!\\*)",
-					"end": "\\*/",
-					"patterns": [
-						{
-							"include": "#block-comments"
-						}
-					]
-				}
-			]
-		},
-		"comments": {
-			"patterns": [
-				{
-					"comment": "line comments",
-					"name": "comment.line.double-slash.abra",
-					"match": "(//).*$",
-					"captures": {
-						"1": {
-							"name": "punctuation.definition.comment.abra"
-						}
-					}
-				}
-			]
-		},
-		"constants": {
-			"patterns": [
-				{
-					"comment": "decimal integers and floats",
-					"name": "constant.numeric.decimal.abra",
-					"match": "\\b\\d[\\d_]*(\\.?)[\\d_]*(?:(E|e)([+-]?)([\\d_]+))?(f32|f64|i128|i16|i32|i64|i8|isize|u128|u16|u32|u64|u8|usize)?\\b",
-					"captures": {
-						"1": {
-							"name": "punctuation.separator.dot.decimal.abra"
-						},
-						"2": {
-							"name": "keyword.operator.exponent.abra"
-						},
-						"3": {
-							"name": "keyword.operator.exponent.sign.abra"
-						},
-						"4": {
-							"name": "constant.numeric.decimal.exponent.mantissa.abra"
-						},
-						"5": {
-							"name": "entity.name.type.numeric.abra"
-						}
-					}
-				},
-				{
-					"comment": "booleans",
-					"name": "constant.language.bool.abra",
-					"match": "\\b(true|false)\\b"
-				}
-			]
-		},
-		"escapes": {
-			"comment": "escapes: ASCII, byte, Unicode, quote, regex",
-			"name": "constant.character.escape.abra",
-			"match": "(\\\\)(?:(?:(x[0-7][\\da-fA-F])|(u(\\{)[\\da-fA-F]{4,6}(\\}))|.))",
-			"captures": {
-				"1": {
-					"name": "constant.character.escape.backslash.abra"
-				},
-				"2": {
-					"name": "constant.character.escape.bit.abra"
-				},
-				"3": {
-					"name": "constant.character.escape.unicode.abra"
-				},
-				"4": {
-					"name": "constant.character.escape.unicode.punctuation.abra"
-				},
-				"5": {
-					"name": "constant.character.escape.unicode.punctuation.abra"
-				}
-			}
-		},
-		"functions": {
-			"patterns": [
-				{
-					"comment": "function definition",
-					"name": "meta.function.definition.abra",
-					"begin": "\\b(fn)\\s+((?:r#(?![Ss]elf))?[A-Za-z0-9_]+)((\\()|(<))",
-					"beginCaptures": {
-						"1": {
-							"name": "keyword.other.fn.abra"
-						},
-						"2": {
-							"name": "entity.name.function.abra"
-						},
-						"4": {
-							"name": "punctuation.brackets.round.abra"
-						},
-						"5": {
-							"name": "punctuation.brackets.angle.abra"
-						}
-					},
-					"end": "(\\{)|(;)",
-					"endCaptures": {
-						"1": {
-							"name": "punctuation.brackets.curly.abra"
-						},
-						"2": {
-							"name": "punctuation.semi.abra"
-						}
-					},
-					"patterns": [
-						{
-							"include": "#block-comments"
-						},
-						{
-							"include": "#comments"
-						},
-						{
-							"include": "#keywords"
-						},
-						{
-							"include": "#constants"
-						},
-						{
-							"include": "#functions"
-						},
-						{
-							"include": "#punctuation"
-						},
-						{
-							"include": "#strings"
-						},
-						{
-							"include": "#types"
-						},
-						{
-							"include": "#variables"
-						}
-					]
-				},
-				{
-					"comment": "function/method calls, chaining",
-					"name": "meta.function.call.abra",
-					"begin": "((?:r#(?![Ss]elf))?[A-Za-z0-9_]+)(\\()",
-					"beginCaptures": {
-						"1": {
-							"name": "entity.name.function.abra"
-						},
-						"2": {
-							"name": "punctuation.brackets.round.abra"
-						}
-					},
-					"end": "\\)",
-					"endCaptures": {
-						"0": {
-							"name": "punctuation.brackets.round.abra"
-						}
-					},
-					"patterns": [
-						{
-							"include": "#block-comments"
-						},
-						{
-							"include": "#comments"
-						},
-						{
-							"include": "#attributes"
-						},
-						{
-							"include": "#keywords"
-						},
-						{
-							"include": "#constants"
-						},
-						{
-							"include": "#functions"
-						},
-						{
-							"include": "#punctuation"
-						},
-						{
-							"include": "#strings"
-						},
-						{
-							"include": "#types"
-						},
-						{
-							"include": "#variables"
-						}
-					]
-				},
-				{
-					"comment": "function/method calls with turbofish",
-					"name": "meta.function.call.abra",
-					"begin": "((?:r#(?![Ss]elf))?[A-Za-z0-9_]+)(?=::<.*>\\()",
-					"beginCaptures": {
-						"1": {
-							"name": "entity.name.function.abra"
-						}
-					},
-					"end": "\\)",
-					"endCaptures": {
-						"0": {
-							"name": "punctuation.brackets.round.abra"
-						}
-					},
-					"patterns": [
-						{
-							"include": "#block-comments"
-						},
-						{
-							"include": "#comments"
-						},
-						{
-							"include": "#attributes"
-						},
-						{
-							"include": "#keywords"
-						},
-						{
-							"include": "#constants"
-						},
-						{
-							"include": "#functions"
-						},
-						{
-							"include": "#punctuation"
-						},
-						{
-							"include": "#strings"
-						},
-						{
-							"include": "#types"
-						},
-						{
-							"include": "#variables"
-						}
-					]
-				}
-			]
-		},
-		"keywords": {
-			"patterns": [
-				{
-					"comment": "control flow keywords",
-					"name": "keyword.control.abra",
-					"match": "\\b(break|continue|else|for|if|loop|match|return|try|while|yield)\\b"
-				},
-				{
-					"comment": "storage keywords",
-					"name": "keyword.other.abra storage.type.abra",
-					"match": "\\b(let|var)\\b"
-				},
-				{
-					"comment": "type keyword",
-					"name": "keyword.declaration.type.abra storage.type.abra",
-					"match": "\\b(type)\\b"
-				},
-				{
-					"comment": "enum keyword",
-					"name": "keyword.declaration.enum.abra storage.type.abra",
-					"match": "\\b(enum)\\b"
-				},
-				{
-					"comment": "interface keyword",
-					"name": "keyword.declaration.interface.abra storage.type.abra",
-					"match": "\\b(interface)\\b"
-				},
-				{
-					"comment": "struct keyword",
-					"name": "keyword.declaration.struct.abra storage.type.abra",
-					"match": "\\b(struct)\\b"
-				},
-				{
-					"comment": "other keywords",
-					"name": "keyword.other.abra",
-					"match": "\\b(as|async|become|box|dyn|move|final|gen|impl|in|override|priv|pub|ref|typeof|union|unsafe|unsized|use|virtual|where)\\b"
-				},
-				{
-					"comment": "fn",
-					"name": "keyword.other.fn.abra",
-					"match": "\\bfn\\b"
-				},
-				{
-					"comment": "logical operators",
-					"name": "keyword.operator.logical.abra",
-					"match": "(\\^|\\||\\|\\||&&|<<|>>|!)(?!=)"
-				},
-				{
-					"comment": "logical AND, borrow references",
-					"name": "keyword.operator.borrow.and.abra",
-					"match": "&(?![&=])"
-				},
-				{
-					"comment": "assignment operators",
-					"name": "keyword.operator.assignment.abra",
-					"match": "(\\+=|-=|\\*=|/=|%=|\\^=|&=|\\|=|<<=|>>=)"
-				},
-				{
-					"comment": "single equal",
-					"name": "keyword.operator.assignment.equal.abra",
-					"match": "(?<![<>])=(?!=|>)"
-				},
-				{
-					"comment": "comparison operators",
-					"name": "keyword.operator.comparison.abra",
-					"match": "(=(=)?(?!>)|!=|<=|(?<!=)>=)"
-				},
-				{
-					"comment": "math operators",
-					"name": "keyword.operator.math.abra",
-					"match": "(([+%]|(\\*(?!\\w)))(?!=))|(-(?!>))|(/(?!/))"
-				},
-				{
-					"comment": "less than, greater than (special case)",
-					"match": "(?:\\b|(?:(\\))|(\\])|(\\})))[ \\t]+([<>])[ \\t]+(?:\\b|(?:(\\()|(\\[)|(\\{)))",
-					"captures": {
-						"1": {
-							"name": "punctuation.brackets.round.abra"
-						},
-						"2": {
-							"name": "punctuation.brackets.square.abra"
-						},
-						"3": {
-							"name": "punctuation.brackets.curly.abra"
-						},
-						"4": {
-							"name": "keyword.operator.comparison.abra"
-						},
-						"5": {
-							"name": "punctuation.brackets.round.abra"
-						},
-						"6": {
-							"name": "punctuation.brackets.square.abra"
-						},
-						"7": {
-							"name": "punctuation.brackets.curly.abra"
-						}
-					}
-				},
-				{
-					"comment": "dot access",
-					"name": "keyword.operator.access.dot.abra",
-					"match": "\\.(?!\\.)"
-				},
-				{
-					"comment": "ranges, range patterns",
-					"name": "keyword.operator.range.abra",
-					"match": "\\.{2}(=|\\.)?"
-				},
-				{
-					"comment": "colon",
-					"name": "keyword.operator.key-value.abra",
-					"match": ":(?!:)"
-				},
-				{
-					"comment": "dashrocket, skinny arrow",
-					"name": "keyword.operator.arrow.skinny.abra",
-					"match": "->|<-"
-				},
-				{
-					"comment": "hashrocket, fat arrow",
-					"name": "keyword.operator.arrow.fat.abra",
-					"match": "=>"
-				}
-			]
-		},
-		"types": {
-			"patterns": [
-				{
-					"comment": "numeric types",
-					"match": "(?<![A-Za-z])(int|float)\\b",
-					"captures": {
-						"1": {
-							"name": "entity.name.type.numeric.abra"
-						}
-					}
-				},
-				{
-					"comment": "parameterized types",
-					"begin": "\\b(_?[A-Z][A-Za-z0-9_]*)(<)",
-					"beginCaptures": {
-						"1": {
-							"name": "entity.name.type.abra"
-						},
-						"2": {
-							"name": "punctuation.brackets.angle.abra"
-						}
-					},
-					"end": ">",
-					"endCaptures": {
-						"0": {
-							"name": "punctuation.brackets.angle.abra"
-						}
-					},
-					"patterns": [
-						{
-							"include": "#block-comments"
-						},
-						{
-							"include": "#comments"
-						},
-						{
-							"include": "#keywords"
-						},
-						{
-							"include": "#punctuation"
-						},
-						{
-							"include": "#types"
-						},
-						{
-							"include": "#variables"
-						}
-					]
-				},
-				{
-					"comment": "primitive types",
-					"name": "entity.name.type.primitive.abra",
-					"match": "\\b(bool|string)\\b"
-				},
-				{
-					"comment": "trait declarations",
-					"match": "\\b(trait)\\s+(_?[A-Z][A-Za-z0-9_]*)\\b",
-					"captures": {
-						"1": {
-							"name": "keyword.declaration.trait.abra storage.type.abra"
-						},
-						"2": {
-							"name": "entity.name.type.trait.abra"
-						}
-					}
-				},
-				{
-					"comment": "struct declarations",
-					"match": "\\b(struct)\\s+(_?[A-Z][A-Za-z0-9_]*)\\b",
-					"captures": {
-						"1": {
-							"name": "keyword.declaration.struct.abra storage.type.abra"
-						},
-						"2": {
-							"name": "entity.name.type.struct.abra"
-						}
-					}
-				},
-				{
-					"comment": "enum declarations",
-					"match": "\\b(enum)\\s+(_?[A-Z][A-Za-z0-9_]*)\\b",
-					"captures": {
-						"1": {
-							"name": "keyword.declaration.enum.abra storage.type.abra"
-						},
-						"2": {
-							"name": "entity.name.type.enum.abra"
-						}
-					}
-				},
-				{
-					"comment": "type declarations",
-					"match": "\\b(type)\\s+(_?[A-Z][A-Za-z0-9_]*)\\b",
-					"captures": {
-						"1": {
-							"name": "keyword.declaration.type.abra storage.type.abra"
-						},
-						"2": {
-							"name": "entity.name.type.declaration.abra"
-						}
-					}
-				},
-				{
-					"comment": "types",
-					"name": "entity.name.type.abra",
-					"match": "\\b_?[A-Z][A-Za-z0-9_]*\\b(?!!)"
-				}
-			]
-		},
-		"punctuation": {
-			"patterns": [
-				{
-					"comment": "comma",
-					"name": "punctuation.comma.abra",
-					"match": ","
-				},
-				{
-					"comment": "curly braces",
-					"name": "punctuation.brackets.curly.abra",
-					"match": "[{}]"
-				},
-				{
-					"comment": "parentheses, round brackets",
-					"name": "punctuation.brackets.round.abra",
-					"match": "[()]"
-				},
-				{
-					"comment": "semicolon",
-					"name": "punctuation.semi.abra",
-					"match": ";"
-				},
-				{
-					"comment": "square brackets",
-					"name": "punctuation.brackets.square.abra",
-					"match": "[\\[\\]]"
-				},
-				{
-					"comment": "angle brackets",
-					"name": "punctuation.brackets.angle.abra",
-					"match": "(?<!=)[<>]"
-				}
-			]
-		},
-		"strings": {
-			"patterns": [
-				{
-					"comment": "double-quoted strings and byte strings",
-					"name": "string.quoted.double.abra",
-					"begin": "(b?)(\")",
-					"beginCaptures": {
-						"1": {
-							"name": "string.quoted.byte.raw.abra"
-						},
-						"2": {
-							"name": "punctuation.definition.string.abra"
-						}
-					},
-					"end": "\"",
-					"endCaptures": {
-						"0": {
-							"name": "punctuation.definition.string.abra"
-						}
-					},
-					"patterns": [
-						{
-							"include": "#escapes"
-						},
-						{
-							"include": "#interpolations"
-						}
-					]
-				}
-			]
-		},
-		"variables": {
-			"patterns": [
-				{
-					"comment": "variables",
-					"name": "variable.other.abra",
-					"match": "\\b(?<!(?<!\\.)\\.)(?:r#(?!([Ss]elf)))?[a-z0-9_]+\\b"
-				}
-			]
-		}
-	}
+  "name": "Abra",
+  "scopeName": "source.abra",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#directives"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#constants"
+    },
+    {
+      "include": "#storage"
+    },
+    {
+      "include": "#functions"
+    },
+    {
+      "include": "#types"
+    },
+    {
+      "include": "#variants"
+    },
+    {
+      "include": "#variables"
+    },
+    {
+      "include": "#punctuation"
+    },
+    {
+      "include": "#operators"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "comment": "Line comments",
+          "name": "comment.line.double-slash.abra",
+          "match": "(//).*$",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.comment.abra"
+            }
+          }
+        }
+      ]
+    },
+    "directives": {
+      "patterns": [
+        {
+          "name": "keyword.control.directive.abra",
+          "match": "(#host)"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.abra",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.abra",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.abra",
+          "match": "\\b(if|else|match|return|break|continue|for|while|in|panic)\\b"
+        },
+        {
+          "name": "keyword.operator.logical.abra",
+          "match": "\\b(and|or|not)\\b"
+        },
+        {
+          "name": "keyword.control.import.abra",
+          "match": "\\b(use|as)\\b"
+        }
+      ]
+    },
+    "storage": {
+      "patterns": [
+        {
+          "name": "storage.type.abra",
+          "match": "\\b(let|var|type|enum|struct|interface|implement|extend)\\b"
+        },
+        {
+          "name": "storage.type.function.abra",
+          "match": "\\b(fn)\\b"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.abra",
+          "match": "\\b(true|false|nil)\\b"
+        },
+        {
+          "name": "constant.numeric.float.abra",
+          "match": "\\b\\d+\\.\\d+\\b"
+        },
+        {
+          "name": "constant.numeric.integer.abra",
+          "match": "\\b\\d+\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "storage.type.primitive.abra",
+          "match": "\\b(int|float|bool|string|void)\\b"
+        },
+        {
+          "name": "entity.name.type.abra",
+          "match": "\\b[A-Z][a-zA-Z0-9_]*\\b"
+        },
+        {
+          "name": "keyword.other.self.abra",
+          "match": "\\bSelf\\b"
+        }
+      ]
+    },
+    "variants": {
+      "patterns": [
+        {
+          "comment": "Enum variants like .some, .none, .Up",
+          "match": "(\\.)([a-zA-Z_][a-zA-Z0-9_]*)",
+          "captures": {
+            "1": {
+              "name": "punctuation.separator.variant.abra"
+            },
+            "2": {
+              "name": "variable.other.enummember.abra"
+            }
+          }
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "comment": "Function definition",
+          "match": "\\b(fn)\\s+([a-z][a-zA-Z0-9_]*)",
+          "captures": {
+            "1": {
+              "name": "storage.type.function.abra"
+            },
+            "2": {
+              "name": "entity.name.function.abra"
+            }
+          }
+        },
+        {
+          "comment": "Function call",
+          "match": "\\b([a-z][a-zA-Z0-9_]*)\\s*(?=\\()",
+          "captures": {
+            "1": {
+              "name": "entity.name.function.call.abra"
+            }
+          }
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "name": "variable.parameter.abra",
+          "match": "\\b[a-z][a-zA-Z0-9_]*\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.arrow.abra",
+          "match": "->"
+        },
+        {
+          "name": "keyword.operator.concat.abra",
+          "match": "\\.\\."
+        },
+        {
+          "name": "keyword.operator.comparison.abra",
+          "match": "(==|!=|<=|>=|<|>)"
+        },
+        {
+          "name": "keyword.operator.arithmetic.abra",
+          "match": "(\\+|-|\\*|/|%)"
+        },
+        {
+          "name": "keyword.operator.assignment.abra",
+          "match": "="
+        },
+        {
+          "name": "keyword.operator.unwrap.abra",
+          "match": "!"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "name": "punctuation.terminator.abra",
+          "match": ";"
+        },
+        {
+          "name": "punctuation.separator.abra",
+          "match": ","
+        },
+        {
+          "name": "punctuation.accessor.abra",
+          "match": "\\."
+        },
+        {
+          "name": "punctuation.brackets.round.abra",
+          "match": "[()]"
+        },
+        {
+          "name": "punctuation.brackets.curly.abra",
+          "match": "[{}]"
+        },
+        {
+          "name": "punctuation.brackets.square.abra",
+          "match": "[\\[\\]]"
+        },
+        {
+          "name": "punctuation.brackets.angle.abra",
+          "match": "(?<!=)[<>]"
+        }
+      ]
+    }
+  }
 }
