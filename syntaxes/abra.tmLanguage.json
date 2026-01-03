@@ -3,10 +3,13 @@
   "scopeName": "source.abra",
   "patterns": [
     {
+      "include": "#shebang"
+    },
+    {
       "include": "#comments"
     },
     {
-      "include": "#directives"
+      "include": "#attributes"
     },
     {
       "include": "#strings"
@@ -15,10 +18,10 @@
       "include": "#keywords"
     },
     {
-      "include": "#constants"
+      "include": "#storage"
     },
     {
-      "include": "#storage"
+      "include": "#constants"
     },
     {
       "include": "#functions"
@@ -40,6 +43,14 @@
     }
   ],
   "repository": {
+    "shebang": {
+      "patterns": [
+        {
+          "name": "comment.line.shebang.abra",
+          "match": "^#!.*$"
+        }
+      ]
+    },
     "comments": {
       "patterns": [
         {
@@ -54,11 +65,20 @@
         }
       ]
     },
-    "directives": {
+    "attributes": {
       "patterns": [
         {
-          "name": "keyword.control.directive.abra",
-          "match": "(#host)"
+          "comment": "Attributes like #host, #foreign, etc.",
+          "name": "meta.attribute.abra",
+          "match": "(#)\\s*([a-zA-Z_][a-zA-Z0-9_]*)",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.attribute.abra"
+            },
+            "2": {
+              "name": "entity.name.type.attribute.abra"
+            }
+          }
         }
       ]
     },
@@ -89,7 +109,15 @@
         },
         {
           "name": "keyword.control.import.abra",
-          "match": "\\b(use|as)\\b"
+          "match": "\\b(use|as|except)\\b"
+        },
+        {
+          "name": "keyword.other.abra",
+          "match": "\\b(impl)\\b"
+        },
+        {
+          "name": "variable.language.wildcard.abra",
+          "match": "\\b_\\b"
         }
       ]
     },
@@ -97,7 +125,7 @@
       "patterns": [
         {
           "name": "storage.type.abra",
-          "match": "\\b(let|var|type|enum|struct|interface|implement|extend)\\b"
+          "match": "\\b(let|var|type|enum|struct|interface|implement|extend|outputtype)\\b"
         },
         {
           "name": "storage.type.function.abra",
@@ -128,6 +156,12 @@
           "match": "\\b(int|float|bool|string|void)\\b"
         },
         {
+          "comment": "Generic Parameters (PolyIdent in lexer) - Upper followed by digits/underscore only",
+          "name": "entity.name.type.parameter.abra",
+          "match": "\\b[A-Z][0-9_]*\\b"
+        },
+        {
+          "comment": "Standard Types - Upper followed by mixed alphanumeric",
           "name": "entity.name.type.abra",
           "match": "\\b[A-Z][a-zA-Z0-9_]*\\b"
         },
@@ -140,7 +174,7 @@
     "variants": {
       "patterns": [
         {
-          "comment": "Enum variants like .some, .none, .Up",
+          "comment": "Enum variants/Accessors with leading dot",
           "match": "(\\.)([a-zA-Z_][a-zA-Z0-9_]*)",
           "captures": {
             "1": {
@@ -202,15 +236,23 @@
         },
         {
           "name": "keyword.operator.arithmetic.abra",
-          "match": "(\\+|-|\\*|/|%)"
+          "match": "(\\+|-|\\*|/|%|\\^)"
         },
         {
           "name": "keyword.operator.assignment.abra",
-          "match": "="
+          "match": "(\\+=|=)"
         },
         {
           "name": "keyword.operator.unwrap.abra",
           "match": "!"
+        },
+        {
+          "name": "punctuation.separator.path.abra",
+          "match": "/"
+        },
+        {
+          "name": "keyword.operator.type.abra",
+          "match": "\\|"
         }
       ]
     },
