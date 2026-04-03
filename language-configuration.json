@@ -1,6 +1,7 @@
 {
   "comments": {
-    "lineComment": "//"
+    "lineComment": "//",
+    "blockComment": ["/*", "*/"]
   },
   "brackets": [
     [
@@ -56,7 +57,7 @@
     ]
   ],
   "indentationRules": {
-    "increaseIndentPattern": "^.*(\\{|\\(|\\b(if|else|match|for|while|fn|type|enum|struct|interface|extend|implement).*)\\s*$",
+    "increaseIndentPattern": "^.*(\\{|\\(|\\b(if|else|match|for|while|fn|type|interface|extend|implement).*)\\s*$",
     "decreaseIndentPattern": "^\\s*(\\}|\\)).*$"
   }
 }
