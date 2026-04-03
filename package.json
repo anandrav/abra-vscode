@@ -35,6 +35,12 @@
         "path": "./syntaxes/abra.tmLanguage.json"
       }
     ],
+    "snippets": [
+      {
+        "language": "abra",
+        "path": "./snippets/abra.json"
+      }
+    ],
     "configuration": {
       "title": "Abra",
       "properties": {
